@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_24_201716) do
+ActiveRecord::Schema.define(version: 2018_06_24_195806) do
 
   create_table "compras", force: :cascade do |t|
     t.string "name"
@@ -19,12 +19,13 @@ ActiveRecord::Schema.define(version: 2018_06_24_201716) do
     t.decimal "price_per_quota"
     t.integer "min_number_of_quotas"
     t.integer "max_number_of_quotas"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "user_id"
+    t.integer "status"
+    t.integer "max_number_of_quota"
     t.float "latitude"
     t.float "longitude"
-    t.integer "status"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_compras_on_user_id"
   end
 
