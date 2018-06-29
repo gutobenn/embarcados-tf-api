@@ -46,7 +46,7 @@ class Api::V1::ComprasController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def compra_params
-      params.require(:compra).permit(:name,  :description, :end, :price_per_quota, :min_number_of_quotas, :max_number_of_quotas, :latitude, :longitude, :status, :address)
+      params.require(:compra).permit(:name,  :description, :end, :price_per_quota, :min_number_of_quotas, :max_number_of_quotas, :latitude, :longitude, :status, :address, :picture)
     end
 
     def require_authorization!
