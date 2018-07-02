@@ -1,6 +1,6 @@
 class Api::V1::ComprasController < ApplicationController
   before_action :set_compra, only: [:show, :update, :destroy]
-  before_action :authenticate_user!, only: [:show, :update, :destroy]
+  before_action :authenticate_user!, only: [:update, :destroy]
 
   # GET /api/v1/compras
   def index
