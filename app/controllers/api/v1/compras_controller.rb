@@ -4,7 +4,11 @@ class Api::V1::ComprasController < ApplicationController
 
   # GET /api/v1/compras
   def index
-    @compras = Compra.all
+    if params[:radius].present?
+      @compras = Compra.near([-30.03,-51.20], params[:radius], units: :km) 
+    else 
+      @compras = Compra.all
+    end
     @compras_data = []
     @compras.each do |compra|
       new_fields = {"bought_quotas" => compra.quotas.count}
