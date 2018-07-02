@@ -4,8 +4,9 @@ class Api::V1::ComprasController < ApplicationController
 
   # GET /api/v1/compras
   def index
+    puts params
     if params[:radius].present?
-      @compras = Compra.near([-30.03,-51.20], params[:radius], units: :km) 
+      @compras = Compra.near([params[:latitude], params[:longitude]], params[:radius], units: :km) 
     else 
       @compras = Compra.all
     end
