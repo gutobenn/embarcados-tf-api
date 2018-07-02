@@ -10,7 +10,10 @@ class Api::V1::ComprasController < ApplicationController
 
   # GET /api/v1/compras/1
   def show
-    render json: @compra
+    @compra_data = []
+    new_field = {"user_email" => User.find(@compra.user_id).email}
+    @compra_data = JSON::parse(@compra.to_json).merge(new_field)
+    render json: @compra_data
   end
 
   # POST /api/v1/compras
