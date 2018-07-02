@@ -1,6 +1,6 @@
 class Api::V1::ComprasController < ApplicationController
   before_action :set_compra, only: [:show, :update, :destroy]
-  #before_action :require_authorization!, only: [:show, :update, :destroy] # TODO tirei autenticacao
+  before_action :authenticate_user!, only: [:show, :update, :destroy]
 
   # GET /api/v1/compras
   def index
@@ -15,7 +15,8 @@ class Api::V1::ComprasController < ApplicationController
 
   # POST /api/v1/compras
   def create
-    @compra = Compra.new(compra_params.merge(user: current_user)) # TODO arrumar pra funcionar assim.  tem q exigir no model
+    @compra = Compra.new(compra_params)
+    @compra.user_id = current_user.id
     if @compra.save
       render json: @compra, status: :created
     else
@@ -47,11 +48,5 @@ class Api::V1::ComprasController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def compra_params
       params.require(:compra).permit(:name,  :description, :end, :price_per_quota, :min_number_of_quotas, :max_number_of_quotas, :latitude, :longitude, :status, :address, :picture)
-    end
-
-    def require_authorization!
-      unless current_user == @compra.user
-        render json: {}, status: :forbidden
-      end
     end
 end

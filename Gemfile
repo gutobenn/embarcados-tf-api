@@ -47,7 +47,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # CUSTOM
 gem 'rack-cors'
 gem 'devise'
-gem 'simple_token_authentication', '~> 1.0'
 gem 'geocoder'
 gem 'carrierwave'
 gem 'carrierwave-base64'
+gem 'devise_token_auth'
+gem 'omniauth'
