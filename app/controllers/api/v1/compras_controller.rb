@@ -1,18 +1,23 @@
 class Api::V1::ComprasController < ApplicationController
   before_action :set_compra, only: [:show, :update, :destroy]
-  before_action :authenticate_user!, only: [:update, :destroy]
+  before_action :authenticate_user!, only: [:update, :destroy] # TODO ta vendo se ta logado, mas nao se o usuario é o criador da compra.
 
   # GET /api/v1/compras
   def index
-   @compras = Compra.all
-   render json: @compras
+    @compras = Compra.all
+    @compras_data = []
+    @compras.each do |compra|
+      new_fields = {"bought_quotas" => compra.quotas.count}
+      @compras_data << JSON::parse(compra.to_json).merge(new_fields)
+    end
+    render json: @compras_data
   end
 
   # GET /api/v1/compras/1
   def show
     @compra_data = []
-    new_field = {"user_email" => User.find(@compra.user_id).email}
-    @compra_data = JSON::parse(@compra.to_json).merge(new_field)
+    new_fields = {"user_email" => User.find(@compra.user_id).email, "bought_quotas" => @compra.quotas.count, "quotas" => @compra.quotas}
+    @compra_data = JSON::parse(@compra.to_json).merge(new_fields)
     render json: @compra_data
   end
 
