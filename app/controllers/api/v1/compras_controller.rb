@@ -4,8 +4,9 @@ class Api::V1::ComprasController < ApplicationController
 
   # GET /api/v1/compras
   def index
-    puts params
-    if params[:radius].present?
+    if params[:my].present?
+      @compras = (current_user.compras + Compra.where(user_id: current_user.id)).uniq!
+    elsif params[:radius].present?
       @compras = Compra.near([params[:latitude], params[:longitude]], params[:radius], units: :km) 
     else 
       @compras = Compra.all
