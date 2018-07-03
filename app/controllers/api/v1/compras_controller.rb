@@ -21,7 +21,11 @@ class Api::V1::ComprasController < ApplicationController
   # GET /api/v1/compras/1
   def show
     @compra_data = []
-    new_fields = {"user_email" => User.find(@compra.user_id).email, "bought_quotas" => @compra.quotas.count, "quotas" => @compra.quotas}
+    compra_quotas = @compra.quotas
+    compra_quotas.each do |quota|
+      quota.user_email = User.find(quota.user_id).email
+    end
+    new_fields = {"user_email" => User.find(@compra.user_id).email, "bought_quotas" => @compra.quotas.count, "quotas" => compra_quotas}
     @compra_data = JSON::parse(@compra.to_json).merge(new_fields)
     render json: @compra_data
   end
