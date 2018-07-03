@@ -13,7 +13,11 @@ class Api::V1::ComprasController < ApplicationController
     end
     @compras_data = []
     @compras.each do |compra|
-      new_fields = {"bought_quotas" => compra.quotas.count}
+      count_quotas = 0
+      compra.quotas.each do |quota|
+        count_quotas = count_quotas + quota.quantity
+      end
+      new_fields = {"bought_quotas" => count_quotas}
       @compras_data << JSON::parse(compra.to_json).merge(new_fields)
     end
     render json: @compras_data
@@ -26,7 +30,11 @@ class Api::V1::ComprasController < ApplicationController
     compra_quotas.each do |quota|
       quota.user_email = User.find(quota.user_id).email
     end
-    new_fields = {"user_email" => User.find(@compra.user_id).email, "bought_quotas" => @compra.quotas.count, "quotas" => compra_quotas}
+    count_quotas = 0
+    @compra.quotas.each do |quota|
+      count_quotas = count_quotas + quota.quantity
+    end
+    new_fields = {"user_email" => User.find(@compra.user_id).email, "bought_quotas" => count_quotas, "quotas" => compra_quotas}
     @compra_data = JSON::parse(@compra.to_json).merge(new_fields)
     render json: @compra_data
   end
